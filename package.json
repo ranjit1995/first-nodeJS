@@ -6,14 +6,17 @@
     "start": "if [[SORCE_env=='production']]; then node ./bin/www;else nodemon ./bin/www; fi"
   },
   "dependencies": {
+    "consolidate": "^0.16.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "express": "~4.16.1",
+    "handlebars": "^4.7.7",
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
     "morgan": "~1.9.1",
     "mysql": "^2.18.1",
-    "nodemailer": "^6.6.3"
+    "nodemailer": "^6.6.3",
+    "swig": "^1.4.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.12"

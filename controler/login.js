@@ -5,7 +5,6 @@ var crypto = require("crypto");
 exports.login = function (req, res, next) {
     console.log(req.body)
     if (req.body.email && req.body.password) {
-        console.log("COMING INSIDE")
         dbConnect.pool.query(`${query.string[0].userCheck} ${'email'}='${req.body.email}'`, (err, result, fields) => {
             if (err) {
                 return console.log(err)

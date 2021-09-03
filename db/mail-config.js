@@ -9,6 +9,7 @@ exports.transporter = nodemailer.createTransport({
 exports.mailOptions = {
     from: 'ranjitnode@gmail.com',
     to: 'ranjitkumarray25@gmail.com',
-    subject: 'Sending Email using Node.js',
-    text: 'That was easy!'
+    subject: 'User registration',
+    html: "<p><b>HI</b>, </p><p>thank you for being a part of go school platform </p>"
+
 };
