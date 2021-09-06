@@ -3,9 +3,9 @@ const indexed = require('../modal/sequelizer-index')
 exports.index = function (req, res, next) {
     db.authenticate()
         .then(() => {
-            indexed.findAll({
+            indexed.personal_info.findAll({
                 where: {
-                    last_name: 'ray'
+                    first_name: 'ranjit k'
                 }, raw: true
             }).then((result) => {
                 console.log(result)
