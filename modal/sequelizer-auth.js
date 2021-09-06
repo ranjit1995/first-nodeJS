@@ -1,13 +1,8 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const db = require('../db/connection');
-exports.personal_info = db.define("personal_info",
+exports.auth = db.define("personal_info",
     {
-        id: {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true
 
-        },
         first_name: {
             type: DataTypes.STRING,
             required: true,
@@ -39,8 +34,8 @@ exports.personal_info = db.define("personal_info",
         city: {
             type: DataTypes.STRING
         },
-        user_type:{
-            type: DataTypes.STRING
+        password: {
+            type: DataTypes.CHAR
         }
     },
     {

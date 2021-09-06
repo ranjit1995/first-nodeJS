@@ -1,52 +1,61 @@
-const dbConnect = require('../db/connection')
-const query = require('../db/query-string')
 var crypto = require("crypto");
-
+const db = require('../db/connection');
+const indexed = require('../modal/sequelizer-auth')
 exports.login = function (req, res, next) {
     console.log(req.body)
+    res.setHeader('Content-Type', 'application/json');
     if (req.body.email && req.body.password) {
-        dbConnect.pool.query(`${query.string[0].userCheck} ${'email'}='${req.body.email}'`, (err, result, fields) => {
-            if (err) {
-                return console.log(err)
-            }
-            if (result) {
-                console.log(result)
-                if (result.length > 0) {
-                    let searchResult = JSON.stringify(result[0])
-                    const secret = 'abcdefg';
-                    const hash = crypto.createHmac('sha256', secret)
-                        .update(req.body.password)
-                        .digest('hex');
-                    console.log(hash, "this is hash password");
-                    if (hash === (JSON.parse(searchResult).password)) {
-                        console.log("Password matched")
-                        dbConnect.pool.query(`${query.string[0].selectUser} ${'email'}='${req.body.email}'`, (err, result, fields) => {
-                            if (err) {
-                                res.send({ success: false, message: 'database error', error: err });
-                                return console.log(err)
-                            }
+        console.log(req.body.password)
+        const secret = 'abcdefg';
+        const hash = crypto.createHmac('sha256', secret)
+            .update(req.body.password)
+            .digest('hex');
+        console.log(hash, "this is hash password");
+        db.authenticate()
+            .then(() => {
+                indexed.auth.findOne({
+                    where: {
+                        email: req.body.email,
+                        password: hash
+                    }, raw: true
+                }).then((result) => {
+                    console.log(result, "COMING IN SUCCESS")
+                    if (result) {
+                        res.end(JSON.stringify(result));
+                    } else {
+                        indexed.auth.findOne({
+                            where: {
+                                email: req.body.email
+                            }, raw: true
+                        }).then((result) => {
+                            console.log(result)
                             if (result) {
-                                console.log(result)
-                                res.setHeader('Content-Type', 'application/json');
-                                dbConnect.pool.query(`${query.string[0].inserSession} (email, token) values ('${req.body.email}', '${Math.floor(Math.random() * 1E16)}')`, (err, results, fields) => {
-                                    res.end(JSON.stringify(result[0]));
-                                })
+                                res.status(400).json({
+                                    message: "Password is wrong",
+                                    status_code: 400
+                                });
+                            } else {
+                                res.status(400).json({
+                                    message: "Email is not registered",
+                                    status_code: 400
+                                });
                             }
                         })
-                    } else {
-                        res.end(JSON.stringify({
-                            message: "Password not matched",
-                            status_code: 400
-                        }));
+
                     }
-                } else {
-                    res.end(JSON.stringify({
-                        message: "User not registered",
-                        status_code: 400
-                    }));
-                }
-            }
-        })
+                }).catch(function (error) {
+                    console.log(error.sqlMessage, "COMING IN ERROR")
+
+                    let err = JSON.stringify(error)
+                    let errors = JSON.parse(err).parent
+                    if (errors.code === 'ER_DUP_ENTRY') {
+                        res.status(400).json({
+                            message: "Email already exits",
+                            status_code: 400
+                        });
+                    }
+                })
+            });
     } else {
         res.end(JSON.stringify({
             message: "Enter login ID and Password",

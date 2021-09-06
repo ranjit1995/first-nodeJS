@@ -5,7 +5,7 @@ exports.index = function (req, res, next) {
         .then(() => {
             indexed.personal_info.findAll({
                 where: {
-                    first_name: 'ranjit k'
+                    first_name: 'ranjit'
                 }, raw: true
             }).then((result) => {
                 console.log(result)
