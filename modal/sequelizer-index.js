@@ -10,7 +10,6 @@ exports.personal_info = db.define("personal_info",
         },
         first_name: {
             type: DataTypes.STRING,
-            required: true,
         },
         last_name: {
             type: DataTypes.STRING
@@ -39,8 +38,11 @@ exports.personal_info = db.define("personal_info",
         city: {
             type: DataTypes.STRING
         },
-        user_type:{
+        user_type: {
             type: DataTypes.STRING
+        },
+        phone: {
+            type: DataTypes.INTEGER
         }
     },
     {

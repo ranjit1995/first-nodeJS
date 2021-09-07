@@ -42,9 +42,16 @@ exports.setPassword = function (req, res, callback) {
         ).then((result) => {
             console.log(result)
             res.setHeader('Content-Type', 'application/json')
-            res.send(JSON.stringify(result))
+            res.status(200).json({
+                message: "Password updated successfully",
+                status_code: 200
+            });
         }).catch((error => {
             console.log(error)
+            res.status(200).json({
+                message: "Server error",
+                status_code: 400
+            });
         }))
     })
 }
