@@ -16,14 +16,15 @@ exports.register = function (req, res, next) {
                 email: req.body.email,
                 address: req.body.address,
                 city: req.body.city,
-                password:"",
-                isRegister:false,
+                password: "",
+                isRegister: false,
                 user_type: 'user'
             }).then((result) => {
                 console.log(result, "COMING IN SUCCESS")
 
                 if (result) {
-                    console.log(result)
+                    console.log(result.id)
+                    console.log(JSON.stringify(result))
                     res.send(JSON.stringify({
                         message: "User registered successfully",
                         status_code: 200
@@ -32,7 +33,8 @@ exports.register = function (req, res, next) {
                     const source = fs.readFileSync(filePath, 'utf-8').toString();
                     const template = handlebars.compile(source);
                     const replacements = {
-                        username: `${req.body.firstName} ${' '} ${req.body.lastName}`
+                        username: `${req.body.firstName} ${' '} ${req.body.lastName}`,
+                        link: "http://localhost:3000/set-password/" + result.id
                     };
                     const htmlToSend = template(replacements);
                     const mailOptions = {

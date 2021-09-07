@@ -9,11 +9,10 @@ exports.index = function (req, res, next) {
                 }, raw: true
             }).then((result) => {
                 console.log(result)
+                res.setHeader('Content-Type', 'application/json');
+                res.end(JSON.stringify(result))
             }).catch(error => {
                 console.log(error)
             })
-            console.log('connected to DB');
-            res.render('index', { title: 'Express' });
-
         });
 }

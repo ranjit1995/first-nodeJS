@@ -8,10 +8,6 @@ var cons = require('consolidate');
 var indexRouter = require('./routes/index');
 
 var app = express();
-
-// view engine setup
-// app.set('views', path.join(__dirname, 'views'));
-// app.set('view engine', 'jade');
 // view engine setup
 app.engine('html', cons.swig)
 app.set('views', path.join(__dirname, 'views'));
