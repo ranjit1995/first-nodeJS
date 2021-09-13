@@ -6,6 +6,8 @@ const register = require('../controler/register')
 const users = require('../controler/users')
 const newPassword = require('../controler/change-password')
 const profile = require('../controler/profile-update')
+const payment = require('../controler/payment')
+const mail = require('../controler/email-attachment')
 /* GET home page. */
 router.get('/', home.index);
 router.get('/login', auth.login);
@@ -14,5 +16,6 @@ router.get('/userlist', users.userList);
 router.get('/get-password/:id', newPassword.getPassword);
 router.put('/set-password/:id', newPassword.setPassword);
 router.put('/update-profile/:id', profile.update);
-
+router.post('/payment/:id', payment.pay)
+router.post('/attachment', mail.mailAttached)
 module.exports = router;
