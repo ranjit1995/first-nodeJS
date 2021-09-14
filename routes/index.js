@@ -8,6 +8,7 @@ const newPassword = require('../controler/change-password')
 const profile = require('../controler/profile-update')
 const payment = require('../controler/payment')
 const mail = require('../controler/email-attachment')
+const file = require('../controler/read-xl')
 /* GET home page. */
 router.get('/', home.index);
 router.get('/login', auth.login);
@@ -18,4 +19,5 @@ router.put('/set-password/:id', newPassword.setPassword);
 router.put('/update-profile/:id', profile.update);
 router.post('/payment/:id', payment.pay)
 router.post('/attachment', mail.mailAttached)
+router.post('/read-xl', file.xlsx)
 module.exports = router;
