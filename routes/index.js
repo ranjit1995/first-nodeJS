@@ -19,5 +19,5 @@ router.put('/set-password/:id', newPassword.setPassword);
 router.put('/update-profile/:id', profile.update);
 router.post('/payment/:id', payment.pay)
 router.post('/attachment', mail.mailAttached)
-router.post('/read-xl', file.xlsx)
+router.get('/read-xl', file.xlsx)
 module.exports = router;
